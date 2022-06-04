@@ -1,0 +1,9 @@
+https://docs.opencv.org/3.4/d4/d76/tutorial_js_morphological_ops.html
+
+https://www.geeksforgeeks.org/erosion-dilation-images-using-opencv-python/
+
+https://stackoverflow.com/questions/60501986/why-does-the-inpaint-method-not-remove-the-text-from-ic-image
+
+
+kernel = np.ones((5,5), np.uint8)
+inp_mask = cv2.dilate(mask, kernel)
