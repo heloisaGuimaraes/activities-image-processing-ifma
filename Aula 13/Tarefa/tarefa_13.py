@@ -7,7 +7,8 @@ def countPeople(x, y):
     lx, ly = detections[-1]
     rx = abs(lx-x)
     ry = abs(ly-y)
-    n = 30
+    n = 12
+    # print(rx, ry)
     
     if (rx<n or ry<n):
         detections[-1] = (x, y)
@@ -30,9 +31,9 @@ def resize_image(image, scale_percent=50):
     image = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     return image
 
-face_cascade = cv2.CascadeClassifier('../classificadores/haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('../classificadores/haarcascade_frontalface_alt.xml')
 
-size = 35
+size = 40
 cap = cv2.VideoCapture("../../files/IFMA Campus Caxias.mp4")
 if not cap.isOpened():
     print("Erro ao abrir video")
@@ -44,7 +45,8 @@ else:
         if ret is True:
             img = resize_image(frame)
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            faces = face_cascade.detectMultiScale(gray,minSize=(size, size),scaleFactor=1.6)
+            faces = face_cascade.detectMultiScale(gray,minSize=(size, size),scaleFactor=1.3, minNeighbors=7)
+
         
             for (x,y,w,h) in faces:
                 cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
@@ -52,7 +54,7 @@ else:
                 center=(w//2, h//2)
                 cv2.circle(roi_color, center, 2, (255, 0, 0), 3)
                 a, b = center
-                counter += countPeople(x, y)
+                counter += countPeople(a, b)
                 
             cv2.putText(img, "People: "+str(counter), (20 , 20), font,fontScale, color, thickness, cv2.LINE_AA)
                 
